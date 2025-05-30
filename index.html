@@ -68,7 +68,7 @@ console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));</div>
       try {
         const oldLog = console.log;
         let logOutput = "";
-        console.log = (...args) => { logOutput += args.join(" ") + "\\n"; };
+        console.log = (...args) => { logOutput += args.join(" ") + "\n"; };
         eval(code);
         console.log = oldLog;
         document.getElementById("output").textContent = logOutput;

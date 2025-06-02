@@ -2,34 +2,20 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KI-Experiment Programmierhilfe</title>
+  <title>Einfaches KI-Formular</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: auto; padding: 2em; background-color: #f4f4f4; }
-    h1, h2 { color: #333; }
-    textarea, select, input[type=text] { width: 100%; padding: 0.5em; margin: 1em 0; }
-    pre { background-color: #272822; color: #f8f8f2; padding: 1em; overflow-x: auto; }
-    button { padding: 0.7em 1.5em; background-color: #007acc; color: white; border: none; cursor: pointer; margin-top: 1em; }
+    body { font-family: sans-serif; max-width: 600px; margin: 2em auto; }
+    label, textarea, select, input { display: block; width: 100%; margin-bottom: 1em; }
+    button { padding: 0.7em; background-color: #007acc; color: white; border: none; cursor: pointer; }
   </style>
 </head>
 <body>
-  <h1>KI-Experiment zur Programmierhilfe</h1>
-  <p>Im Folgenden sehen Sie einen Vorschlag für eine Programmierlösung. Bitte lesen Sie ihn aufmerksam durch und beantworten Sie anschließend die Fragen.</p>
+  <h1>KI-Formular</h1>
 
-  <h2>KI-Vorschlag</h2>
-  <pre><code>
-// Gibt alle geraden Zahlen in doppelter Ausführung zurück, wenn sie größer als 10 sind
-function filterEven(nums) {
-  return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
-}
-console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));
-  </code></pre>
+  <label for="frage1">1. Was macht der Code?</label>
+  <textarea id="frage1"></textarea>
 
-  <h2>Fragen zum Verständnis</h2>
-  <label>1. Was macht der obige Code?</label>
-  <textarea id="frage1" rows="5" placeholder="Ihre Erklärung"></textarea>
-
-  <label>2. Wie hilfreich war der KI-Vorschlag für Sie?</label>
+  <label for="frage2">2. Wie hilfreich war der Vorschlag?</label>
   <select id="frage2">
     <option value="">Bitte auswählen</option>
     <option>Sehr hilfreich</option>
@@ -39,38 +25,40 @@ console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));
     <option>Unverständlich</option>
   </select>
 
-  <label>3. Haben Sie den Vorschlag übernommen oder angepasst?</label>
-  <input type="text" id="frage3" placeholder="z. B. übernommen, leicht angepasst …">
+  <label for="frage3">3. Haben Sie den Vorschlag übernommen oder angepasst?</label>
+  <input type="text" id="frage3">
 
-  <button onclick="saveData()">Antworten speichern</button>
+  <button onclick="saveData()">Antwort absenden</button>
 
   <script>
     function saveData() {
-      const frage1 = document.getElementById('frage1').value;
-      const frage2 = document.getElementById('frage2').value;
-      const frage3 = document.getElementById('frage3').value;
+      const frage1 = document.getElementById("frage1").value;
+      const frage2 = document.getElementById("frage2").value;
+      const frage3 = document.getElementById("frage3").value;
+
       const code = `function filterEven(nums) {
   return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
 }
 console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));`;
 
       const params = new URLSearchParams({
-        frage1: frage1,
-        frage2: frage2,
-        frage3: frage3,
-        code: code
+        frage1,
+        frage2,
+        frage3,
+        code
       });
 
-      fetch("https://script.google.com/macros/s/AKfycbxbNvltmIe97kx9keFUQhUKSi0n230FvAZ1HOq1mz5f7dbA7iV1oXCLpmn9LUZCk1E/exec?" + params.toString())
+      fetch("https://script.google.com/macros/s/AKfycbzEdORXTsp_A7btMU6FwOdLhv9PXvUJdg3FnqOTzppPb4peX7jXqEpnN7CiFvvEELB_/exec?" + params.toString())
         .then(response => response.text())
         .then(result => {
-          alert("Antwort wurde erfolgreich gespeichert!");
+          alert("Antwort gespeichert!");
         })
         .catch(error => {
-          console.error("Fehler beim Speichern:", error);
-          alert("Fehler beim Speichern.");
+          console.error("Fehler:", error);
+          alert("Speichern fehlgeschlagen.");
         });
     }
   </script>
 </body>
 </html>
+

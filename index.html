@@ -84,12 +84,22 @@ console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));</div>
         frage3: document.getElementById('frage3').value,
         code: editor.getValue()
       };
-      const blob = new Blob([JSON.stringify(antworten, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `antworten_experiment.json`;
-      a.click();
+
+      fetch("https://script.google.com/macros/s/AKfycbyZhPiUVRyjQhg-sGFGJXV-aJtkaGYSd_pFtLx_G7ZSlAtYX1EahtAmLRAZGZBKd972/exec", {
+        method: "POST",
+        body: JSON.stringify(antworten),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert("Antworten wurden erfolgreich gespeichert!");
+      })
+      .catch(error => {
+        console.error("Fehler beim Speichern:", error);
+        alert("Fehler beim Speichern.");
+      });
     }
   </script>
 </body>

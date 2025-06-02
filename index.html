@@ -10,38 +10,24 @@
     textarea, select, input[type=text] { width: 100%; padding: 0.5em; margin: 1em 0; }
     pre { background-color: #272822; color: #f8f8f2; padding: 1em; overflow-x: auto; }
     button { padding: 0.7em 1.5em; background-color: #007acc; color: white; border: none; cursor: pointer; margin-top: 1em; }
-    #editor { height: 200px; border: 1px solid #ccc; margin-top: 1em; }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
 </head>
 <body>
   <h1>KI-Experiment zur Programmierhilfe</h1>
-  <p>Willkommen zum Experiment! Sie erhalten eine Programmieraufgabe und einen KI-Vorschlag. Sie können den Code bearbeiten, ausführen und anschließend einige Fragen beantworten.</p>
-
-  <h2>Aufgabe</h2>
-  <p>Schreiben Sie eine Funktion, die eine Liste von Ganzzahlen entgegennimmt, alle geraden Zahlen herausfiltert und Zahlen > 10 doppelt zurückgibt.</p>
+  <p>Im Folgenden sehen Sie einen Vorschlag für eine Programmierlösung. Bitte lesen Sie ihn aufmerksam durch und beantworten Sie anschließend die Fragen.</p>
 
   <h2>KI-Vorschlag</h2>
-  <pre><code id="ki-code">// Filtert gerade Zahlen, gibt Zahlen > 10 doppelt zurück
-function filterEven(nums) {
-  return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
-}</code></pre>
-
-  <h2>Code bearbeiten & testen</h2>
-  <div id="editor">// Bearbeiten Sie hier den Code
+  <pre><code id="ki-code">
+// Gibt alle geraden Zahlen in doppelter Ausführung zurück, wenn sie größer als 10 sind
 function filterEven(nums) {
   return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
 }
-
-console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));</div>
-  <button onclick="runCode()">Code ausführen</button>
-
-  <h2>Konsole</h2>
-  <pre id="output"></pre>
+console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));
+</code></pre>
 
   <h2>Fragen zum Verständnis</h2>
   <label>1. Was macht der obige Code?</label>
-  <textarea id="frage1"></textarea>
+  <textarea id="frage1" rows="5" placeholder="Ihre Erklärung"></textarea>
 
   <label>2. Wie hilfreich war der KI-Vorschlag für Sie?</label>
   <select id="frage2">
@@ -54,35 +40,20 @@ console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));</div>
   </select>
 
   <label>3. Haben Sie den Vorschlag übernommen oder angepasst?</label>
-  <input type="text" id="frage3">
+  <input type="text" id="frage3" placeholder="z. B. übernommen, leicht angepasst …">
 
   <button onclick="saveData()">Antworten speichern</button>
 
   <script>
-    const editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/javascript");
-
-    function runCode() {
-      const code = editor.getValue();
-      try {
-        const oldLog = console.log;
-        let logOutput = "";
-        console.log = (...args) => { logOutput += args.join(" ") + "\n"; };
-        eval(code);
-        console.log = oldLog;
-        document.getElementById("output").textContent = logOutput;
-      } catch (err) {
-        document.getElementById("output").textContent = "Fehler: " + err.message;
-      }
-    }
-
     function saveData() {
       const antworten = {
         frage1: document.getElementById('frage1').value,
         frage2: document.getElementById('frage2').value,
         frage3: document.getElementById('frage3').value,
-        code: editor.getValue()
+        code: `function filterEven(nums) {
+  return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
+}
+console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));`
       };
 
       fetch("https://script.google.com/macros/s/AKfycbxfA_wJJCw3eNW_FTfVjbqPcLP2stZxHlGQG6L_z_JO8mQXDnVD_BI2d9pctxf_Lc4/exec", {
@@ -94,7 +65,7 @@ console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));</div>
       })
       .then(response => response.text())
       .then(result => {
-        alert("Antworten wurden erfolgreich gespeichert!");
+        alert("Antwort wurde erfolgreich gespeichert!");
       })
       .catch(error => {
         console.error("Fehler beim Speichern:", error);

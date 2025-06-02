@@ -17,13 +17,13 @@
   <p>Im Folgenden sehen Sie einen Vorschlag für eine Programmierlösung. Bitte lesen Sie ihn aufmerksam durch und beantworten Sie anschließend die Fragen.</p>
 
   <h2>KI-Vorschlag</h2>
-  <pre><code id="ki-code">
+  <pre><code>
 // Gibt alle geraden Zahlen in doppelter Ausführung zurück, wenn sie größer als 10 sind
 function filterEven(nums) {
   return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
 }
 console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));
-</code></pre>
+  </code></pre>
 
   <h2>Fragen zum Verständnis</h2>
   <label>1. Was macht der obige Code?</label>
@@ -46,31 +46,30 @@ console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));
 
   <script>
     function saveData() {
-      const antworten = {
-        frage1: document.getElementById('frage1').value,
-        frage2: document.getElementById('frage2').value,
-        frage3: document.getElementById('frage3').value,
-        code: `function filterEven(nums) {
+      const frage1 = document.getElementById('frage1').value;
+      const frage2 = document.getElementById('frage2').value;
+      const frage3 = document.getElementById('frage3').value;
+      const code = `function filterEven(nums) {
   return nums.flatMap(n => (n % 2 === 0 ? (n > 10 ? [n, n] : [n]) : []));
 }
-console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));`
-      };
+console.log(filterEven([2, 4, 11, 15, 7, 8, 12]));`;
 
-      fetch("https://script.google.com/macros/s/AKfycbxawsGSjA_3mocLKv1nQ-oDzZwISRVA4xqE6xbXEKVoRpcy2ov1IBwRMofxHtwjVhm0/exec", {
-        method: "POST",
-        body: JSON.stringify(antworten),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => response.text())
-      .then(result => {
-        alert("Antwort wurde erfolgreich gespeichert!");
-      })
-      .catch(error => {
-        console.error("Fehler beim Speichern:", error);
-        alert("Fehler beim Speichern.");
+      const params = new URLSearchParams({
+        frage1: frage1,
+        frage2: frage2,
+        frage3: frage3,
+        code: code
       });
+
+      fetch("https://script.google.com/macros/s/AKfycbxbNvltmIe97kx9keFUQhUKSi0n230FvAZ1HOq1mz5f7dbA7iV1oXCLpmn9LUZCk1E/exec?" + params.toString())
+        .then(response => response.text())
+        .then(result => {
+          alert("Antwort wurde erfolgreich gespeichert!");
+        })
+        .catch(error => {
+          console.error("Fehler beim Speichern:", error);
+          alert("Fehler beim Speichern.");
+        });
     }
   </script>
 </body>
